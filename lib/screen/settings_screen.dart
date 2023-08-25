@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:random_number_generator/constant/color.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -8,12 +11,49 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
+  double maxNumber = 1000;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Primary_Color,
       body: SafeArea(
-        child: Center(
-            child: Text('Settings Screen')),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Expanded(
+                child: Row(
+                  children:
+                    maxNumber.toInt()
+                        .toString()
+                        .split('')
+                        .map((x) => Image.asset('asset/img/$x.png',
+                      width: 50.0,
+                      height: 70.0,)).
+                    toList()
+                ),
+              ),
+              Slider(
+                  value: maxNumber,
+                  min: 1000,
+                  max: 100000,
+                  onChanged: (double val){
+                    setState(() {
+                      maxNumber = val;
+                    });
+                  }),
+              ElevatedButton(
+                  onPressed: (){
+                    Navigator.of(context).pop(maxNumber.toInt());
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Red_Color,
+                  ),
+                  child: Text('Save!'))
+            ]
+          ),
+        ),
         ),
       );
   }

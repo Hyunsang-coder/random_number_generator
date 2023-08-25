@@ -13,6 +13,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   List<int> randomNumber = [123, 456, 789];
+  int maxNumber = 1000;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _Header(),
+              _Header(onPressed: onSettingChanged,),
               _Body(
                 randomNumber: randomNumber,
               ),
@@ -41,7 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
     Set<int> newRandomNumber = {};
 
     while (newRandomNumber.length != 3) {
-      int rand = Random().nextInt(999);
+      int rand = Random().nextInt(maxNumber);
       newRandomNumber.add(rand);
     }
 
@@ -49,10 +51,29 @@ class _HomeScreenState extends State<HomeScreen> {
       randomNumber = newRandomNumber.toList();
     });
   }
+
+  void onSettingChanged() async {
+    final result = await Navigator
+        .of(context)
+        .push<int>(
+        MaterialPageRoute(
+            builder:
+                (BuildContext context) {
+              return SettingsScreen();
+            }
+        ));
+    setState(() {
+      if (result != null)
+      {
+        maxNumber = result;
+      }
+    });
+  }
 }
 
 class _Header extends StatelessWidget {
-  const _Header({super.key});
+  final VoidCallback onPressed;
+  const _Header({required this.onPressed, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -68,15 +89,7 @@ class _Header extends StatelessWidget {
           ),
         ),
         IconButton(
-          onPressed: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (BuildContext context) {
-                  return SettingsScreen();
-                },
-              ),
-            );
-          },
+          onPressed: onPressed,
           icon: Icon(Icons.settings),
           color: Colors.red,
         )
