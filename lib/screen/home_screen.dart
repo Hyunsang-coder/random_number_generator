@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:random_number_generator/component/number_row.dart';
 import 'package:random_number_generator/constant/color.dart';
 import 'package:random_number_generator/screen/settings_screen.dart';
 
@@ -59,7 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
         MaterialPageRoute(
             builder:
                 (BuildContext context) {
-              return SettingsScreen();
+              return SettingsScreen(maxNumber: maxNumber,);
             }
         ));
     setState(() {
@@ -111,19 +112,11 @@ class _Body extends StatelessWidget {
                 .asMap()
                 .entries
                 .map((x) => Padding(
-                      padding: EdgeInsets.only(bottom: x.key == 2 ? 0 : 10),
-                      child: Row(
-                          children: x.value
-                              .toString()
-                              .split('')
-                              .map((y) => Image.asset(
-                                    'asset/img/$y.png',
-                                    height: 70,
-                                    width: 50,
-                                  ))
-                              .toList()),
+                      padding: EdgeInsets.only(bottom: x.key == 2 ? 0 : 20),
+                      child: NumberRow(number: x.value),
                     ))
-                .toList()));
+                .toList())
+    );
   }
 }
 
