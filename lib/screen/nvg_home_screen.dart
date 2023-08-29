@@ -16,7 +16,13 @@ class NvgHomeScreen extends StatelessWidget {
 
            print(result);
           },
-          child: Text("Push"))
+          child: Text("Push")),
+        ElevatedButton(
+            onPressed: () async{
+              final result = await Navigator.of(context).maybePop();
+              print(Navigator.of(context).canPop());
+            },
+            child: Text("Can Pop?"))
     ], );
   }
 }

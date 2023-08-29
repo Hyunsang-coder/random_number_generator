@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:random_number_generator/layout/main_layout.dart';
 import 'package:random_number_generator/main.dart';
+import 'package:random_number_generator/screen/route_three_screen.dart';
 
 class RouteTwoScreen extends StatelessWidget {
   const RouteTwoScreen({super.key});
@@ -16,13 +17,19 @@ class RouteTwoScreen extends StatelessWidget {
         ),
         ElevatedButton(
             onPressed: () {
-              Navigator.of(context).pushNamed(Route_Three, arguments: "route 3 argument");
+              Navigator.of(context).pushNamed('/three', arguments: "pushNamedWithArg" );//Navigator.of(context).pushNamed(Route_Three, arguments: "route 3 argument");
             },
             child: Text('PushNamed')),
+        ElevatedButton(
+            onPressed: () {
+              Navigator.of(context).pushNamedAndRemoveUntil("/two", (route) => route.settings.name == "/");
+            },
+            child: Text('RemovedUntill')),
 
         ElevatedButton(
             onPressed: () {
               Navigator.of(context).pop("Result");
+              print(Navigator.of(context).canPop());
             },
             child: Text('Pop')),
       ],),
